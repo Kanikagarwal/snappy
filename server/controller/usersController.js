@@ -1,5 +1,6 @@
 import User from "../model/userModel.js";
 import bcrypt from "bcrypt";
+import mongoose from "mongoose";
 
 // Register controller
 export async function register(req,res,next){
@@ -115,16 +116,27 @@ export async function setAvatar(req, res, next) {
 
   // All Users Controller
 
-  export async function getAllUsers(req,res,next){
-    try{
-      const users = await User.find({_id:{$ne: req.params.id}}).select([
+  export async function getAllUsers(req, res, next) {
+    try {
+      const userId = req.params.id;
+  
+      // Validate if the id is a valid ObjectId
+      if (!mongoose.Types.ObjectId.isValid(userId)) {
+        return res.status(400).json({ error: "Invalid user ID format" });
+      }
+  
+      // Fetch all users except the one with the given ID
+      const users = await User.find({ _id: { $ne: userId } }).select([
         "email",
         "username",
         "avatarImage",
         "_id",
-      ])
-    }
-    catch(err){
-       next(err)
+      ]);
+  
+      // Send the response back to the client
+      return res.json({ status: true, data: users });
+    } catch (err) {
+      console.error("Error in getAllUsers:", err);
+      return res.status(500).json({ error: "Internal Server Error" });
     }
   }

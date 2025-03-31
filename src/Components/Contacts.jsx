@@ -38,7 +38,7 @@ function Contacts({ contacts, currentUser, changeChat }) {
                     index === currentSelected ? "selected" : ""
                   }`}
                   key={index}
-                  onClick={()=>changeCurrentChat(index.contact)}
+                  onClick={()=>changeCurrentChat(index,contact)}
                 >
                   <div className="avatar">
                     <img

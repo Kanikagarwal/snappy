@@ -11,18 +11,13 @@ function Chat() {
   const navigate = useNavigate();
   const [contacts, setContacts] = useState([]);
   const [currentUser, setCurrentUser] = useState(undefined);
-  const [currentChat,setCurrentChat] = useState(undefined);
-  const [isLoading,setIsLoading] = useState(false);
-console.log(contacts);
+  const [currentChat, setCurrentChat] = useState(undefined);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Check if the user is in localStorage and set currentUser
   useEffect(() => {
-    console.log(contacts);
-    
     const checkUser = async () => {
       const user = localStorage.getItem("chat-app-user");
-      console.log("User from localStorage:", user); // Log user from localStorage
-
       if (!user) {
         navigate('/login');
       } else {
@@ -35,25 +30,13 @@ console.log(contacts);
 
   // Fetch contacts when currentUser is set
   useEffect(() => {
-    console.log(contacts);
-    
     const fetchContacts = async () => {
       if (currentUser) {
-        console.log("Fetching contacts for user:", currentUser._id); // Log currentUser to ensure it's set
-        
         if (currentUser.isAvatarImageSet) {
-          console.log("I am in");
           try {
-            console.log(allUsersRoute);
-            const { data } = await axios.get(`http://localhost:5000/api/auth/allUsers`);
-            console.log("I am in");
-            console.log("API response data:", data); // Log the entire API response
-            
-            if (data?.data) { 
+            const { data } = await axios.get(`${allUsersRoute}/${currentUser._id}`);
+            if (data?.data) {
               setContacts(data.data);
-              console.log("Contacts have been set:", data.data); // Log contacts after state update
-            } else {
-              console.error("No contacts data found");
             }
           } catch (error) {
             console.error("Error fetching contacts:", error);
@@ -61,23 +44,25 @@ console.log(contacts);
         } else {
           navigate("/setAvatar");
         }
-      } else {
-        console.log("currentUser is undefined");
       }
     };
 
     fetchContacts();
   }, [currentUser, navigate]);
-console.log(contacts);
-const handleChatChange = (chat)=>{
-  setCurrentChat(chat)
-}
+
+  const handleChatChange = (chat) => {
+    setCurrentChat(chat);
+  };
+
   return (
     <Container>
       <div className="container">
         <Contacts contacts={contacts} currentUser={currentUser} changeChat={handleChatChange} />
-        {isLoading && currentChat===undefined ?(
-          currentUser && <Welcome currentUser={currentUser} />): (<ChatContainer currentUser={currentUser}/>)}
+        {isLoading && currentChat === undefined ? (
+          currentUser && <Welcome currentUser={currentUser} />
+        ) : (
+          <ChatContainer currentUser={currentUser} />
+        )}
       </div>
     </Container>
   );
