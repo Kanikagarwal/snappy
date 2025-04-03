@@ -168,10 +168,11 @@ border:none;
 font-weight:bold;
 cursor:pointer;
 border-radius:0.4rem;
-font-szie:1rem;
+font-size:1rem;
 text-transform:uppercase;
 transition: 0.5s ease-in-out;
 &:hover{
 background-color:#4e0eff;
+}
 }
 `
