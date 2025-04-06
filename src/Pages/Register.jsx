@@ -29,7 +29,6 @@ useEffect(()=>{
  },[])
   const handleSubmit = async(event)=>{
     event.preventDefault();
-    alert("Successrs")
    if(handleValidation()){
     const {username,email,password,confirmPassword} = values;
     const {data} = await axios.post(registerRoute,{

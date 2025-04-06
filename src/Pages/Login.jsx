@@ -31,7 +31,6 @@ const toastOptions = {
 
   const handleSubmit = async(event)=>{
     event.preventDefault();
-    alert("Successrs")
    if(handleValidation()){
     const {username,password} = values;
     const {data} = await axios.post(loginRoute,{
