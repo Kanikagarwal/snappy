@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react'
+import { Link } from 'react-router-dom';
 import styled from "styled-components"
 import loader from '../assets/loader.gif'
 import Login from './Login';
@@ -16,6 +17,14 @@ function SetAvatar() {
     const [avatars,setAvatar] = useState([]);
     const [isLoading,setIsLoading] = useState(true);
     const [selectedAvatar,setSelectedAvatar] = useState(undefined);
+
+   
+    
+    
+
+
+
+
     const toastOptions = {
         position:'bottom-right',
         theme:"dark",
@@ -24,12 +33,12 @@ function SetAvatar() {
         draggable:true
        }
        useEffect(()=>{
-        console.log(avatars);
+      
         
         if(!localStorage.getItem("chat-app-user")){
             navigate('/login');
         }
-        console.log(localStorage.getItem("chat-app-user"));
+        
               },[])
 
 
@@ -40,7 +49,7 @@ function SetAvatar() {
                   const user = await JSON.parse(localStorage.getItem("chat-app-user"));
               
                   // Log avatar data before sending it
-                  console.log('Selected Avatar Image:', avatars[selectedAvatar]);
+                  // console.log('Selected Avatar Image:', avatars[selectedAvatar]);
               
                   try {
                     const { data } = await axios.post(`${setAvatarRoute}/${user._id}`, {
@@ -69,15 +78,13 @@ function SetAvatar() {
 
 
     useEffect(()=>{
-        console.log(avatars);
+        // console.log(avatars);
         
         async function fetchData() {
             const data = [];
             for(let i=0;i<4;i++){
                 const image = await axios.get(`${api}/${Math.round(Math.random()*1000)}.svg`,{responseType:"text"})
-                // const buffer = new Buffer(image.data);
                 data.push(btoa(unescape(encodeURIComponent(image.data))));
-                // data.push(image.data);
             }
             setAvatar(data);
             setIsLoading(false);
@@ -106,9 +113,13 @@ function SetAvatar() {
                     </div>
                 )
             })
-        }
+
+          }
+          
+
        </div>
        <button className='submitBtn' onClick={setProfilePicture}>Set as Profile Picture</button>
+       <div className='linkToDp'><Link to="/upload">Do you want to select your own image as avatar?</Link></div>
     </Container>
 )}
     <ToastContainer/>
@@ -150,8 +161,6 @@ transition:0.5s ease-in-out;
 img{
     height:6rem;
     width:6rem;
-    // background: orange;
-    // background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
     border-radius:50%;
     padding:0.2rem;
 }
@@ -174,5 +183,10 @@ transition: 0.5s ease-in-out;
 &:hover{
 background-color:#4e0eff;
 }
+}
+.linkToDp{
+  margin-top: 20px;
+  font-size: 1.2rem;
+  color: #4e0eff;
 }
 `

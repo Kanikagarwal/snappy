@@ -42,8 +42,12 @@ function Contacts({ contacts, currentUser, changeChat }) {
                 >
                   <div className="avatar">
                     <img
-                      src={`data:image/svg+xml;base64,${contact.avatarImage}`}
-                      alt="avatar"
+                      src={`${
+                        contact.avatarImage.startsWith("data:image/")
+                          ? contact.avatarImage
+                          : `data:image/svg+xml;base64,${contact.avatarImage}`
+                      }`}
+                      alt="avatar3"
                     />
                   </div>
                   <div className="username">
@@ -56,8 +60,12 @@ function Contacts({ contacts, currentUser, changeChat }) {
           <div className="currentUser">
             <div className="avatar">
               <img
-                src={`data:image/svg+xml;base64,${currentUserImage}`}
-                alt="avatar"
+                src={`${
+                  currentUserImage.startsWith("data:image/")
+                    ? currentUserImage
+                    : `data:image/svg+xml;base64,${currentUserImage}`
+                }`}
+                alt="avatar2"
               />
             </div>
             <div className="username">
@@ -117,7 +125,9 @@ const Container = styled.div`
       transition: 0.5s ease-in-out;
       .avatar {
         img {
+          border-radius: 50%;
           height: 3rem;
+          width:3rem;
         }
       }
       .username {
@@ -139,8 +149,10 @@ const Container = styled.div`
     gap: 2rem;
     .avatar{
         img{
-            height: 4rem;
+            height: 5rem;
+            width: 5rem;
             max-inline-size: 100%;
+            border-radius: 50%;
         }
     }
     .username {

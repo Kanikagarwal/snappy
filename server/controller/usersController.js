@@ -2,6 +2,8 @@ import User from "../model/userModel.js";
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
 
+
+
 // Register controller
 export async function register(req,res,next){
     try{
@@ -54,23 +56,6 @@ export async function login(req,res,next){
     }
 }
 
-// Set avatar controller
-// export async function setAvatar(res,req,next){
-//     try{
-//         const userId = req.params.id;
-//         const avatarImage = req.body.image;
-//         const userData = await User.findByIdAndUpdate(userId,{
-//             IsAvatarImageSet:true,
-//             avatarImage
-//         })
-//         return res.json({isSet:userData.IsAvatarImageSet,
-//             image:userData.avatarImage
-//         });
-//     }
-//     catch(e){
-//         next(e);
-//     }
-// }
 
 
 export async function setAvatar(req, res, next) {
@@ -112,6 +97,86 @@ export async function setAvatar(req, res, next) {
       return res.status(500).json({ error: 'An error occurred while setting avatar' });
     }
   }
+
+  // DP Controller
+
+  export async function dp(req, res) {
+
+    try {
+      const mimeType = req.file.mimetype; // e.g. image/jpeg
+const base64Image = req.file.buffer.toString("base64");
+const avatarImage = `data:${mimeType};base64,${base64Image}`;
+      const userId = req.params.id;
+  
+      if (!req.file) {
+        console.log("No file received");
+        return res.status(400).json({ error: "No file uploaded" });
+      }
+  console.log(req.file);
+  
+      // const avatarImage = req.file.buffer.toString("base64");
+  
+      const userData = await User.findByIdAndUpdate(
+        userId,
+        { isAvatarImageSet: true, avatarImage },
+        { new: true }
+      );
+  
+      if (!userData) {
+        return res.status(404).json({ error: "User not found" });
+      }
+  
+      return res.json({
+        isSet: userData.isAvatarImageSet,
+        image: userData.avatarImage,
+      });
+    } catch (e) {
+      console.error("Error in setAvatar controller:", e);
+      return res.status(500).json({ error: "An error occurred while setting avatar" });
+    }
+  }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   
 
   // All Users Controller
