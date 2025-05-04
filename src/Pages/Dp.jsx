@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { dpRoute } from "../APIRoutes";
-import avatar from "../assets/avatar.jpg";
+import avatar from "../assets/woman.png";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
@@ -110,6 +110,7 @@ const Container = styled.div`
     margin-bottom: 1.2rem;
     width: 13rem;
     height: 13rem;
+    border-radius: 50%;
   }
 
   .submitBtn {
