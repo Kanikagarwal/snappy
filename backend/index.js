@@ -12,23 +12,44 @@ dotenv.config();
 const app = express();
 
 // Update your CORS configuration to this:
-const allowedOrigins = [process.env.FRONTURL || "https://snappy-chatapp-five.vercel.app"];
+// Update your CORS middleware like this:
+const allowedOrigins = [
+  process.env.FRONTURL || "https://snappy-chatapp-five.vercel.app",
+  "http://localhost:3000" // for local dev
+];
 
-app.use(cors({
+const corsOptions = {
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.some(allowedOrigin => 
+      origin === allowedOrigin || 
+      origin.includes(allowedOrigin.replace(/https?:\/\//, ''))
+    )) {
       callback(null, true);
     } else {
-      callback(new Error("Not allowed by CORS"));
+      callback(new Error('Not allowed by CORS'));
     }
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
-}));
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  credentials: true,
+  preflightContinue: false,
+  optionsSuccessStatus: 204
+};
 
-// Handle preflight requests for all routes
-app.options("*", cors());
+// Apply CORS to all routes
+app.use(cors(corsOptions));
+
+// Explicitly handle OPTIONS for your auth route
+app.options("/api/auth/login", (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', allowedOrigins[0]);
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.status(204).end();
+});
 
 
 app.use(express.json());
