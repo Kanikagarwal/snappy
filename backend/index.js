@@ -12,17 +12,24 @@ dotenv.config();
 const app = express();
 
 // Update your CORS configuration to this:
-const corsOptions = {
-  origin: process.env.FRONTURL || "https://snappy-chatapp-five.vercel.app",
+const allowedOrigins = [process.env.FRONTURL || "https://snappy-chatapp-five.vercel.app"];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
-};
+}));
 
-app.use(cors(corsOptions));
+// Handle preflight requests for all routes
+app.options("*", cors());
 
-// Explicit OPTIONS handler for /api/auth/login
-app.options("/api/auth/login", cors(corsOptions));
 
 app.use(express.json());
 
