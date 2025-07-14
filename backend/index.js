@@ -11,13 +11,18 @@ dotenv.config();
 
 const app = express();
 
-app.use(
-  cors({
-    origin: "https://snappy-chatapp-five.vercel.app",
-    credentials: true, // if you're using cookies or auth headers
-  })
-);
-app.options("*", cors());
+// Update your CORS configuration to this:
+const corsOptions = {
+  origin: process.env.FRONTURL || "https://snappy-chatapp-five.vercel.app",
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+};
+
+app.use(cors(corsOptions));
+
+// Explicit OPTIONS handler for /api/auth/login
+app.options("/api/auth/login", cors(corsOptions));
 
 app.use(express.json());
 
