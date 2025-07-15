@@ -15,7 +15,7 @@ const app = express();
 // Update your CORS middleware like this:
 app.use(
   cors({
-    origin: "*",
+    origin: *,
     credentials: true, // if you're using cookies or auth headers
   })
 );
