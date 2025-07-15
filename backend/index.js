@@ -11,12 +11,12 @@ dotenv.config();
 
 const app = express();
 
-// Update your CORS configuration to this:
-// Update your CORS middleware like this:
+
+
 app.use(
   cors({
-    origin: *,
-    credentials: true, // if you're using cookies or auth headers
+    origin: "*",
+    credentials: true,
   })
 );
 app.options("*", cors());
