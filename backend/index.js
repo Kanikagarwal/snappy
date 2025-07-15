@@ -45,7 +45,7 @@ const server = app.listen(process.env.PORT, function () {
 });
 const io = new Server(server,{
     cors:{
-        origin:process.env.FRONTURL,
+        origin:"https://snappy-chatapp-five.vercel.app",
         credentials:true,
     }
 })
