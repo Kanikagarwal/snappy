@@ -15,11 +15,14 @@ const app = express();
 
 app.use(
   cors({
-    origin: "*",
+    origin: "https://snappy-chatapp-five.vercel.app",
     credentials: true,
   })
 );
-app.options("*", cors());
+app.options("*", cors({
+    origin: "https://snappy-chatapp-five.vercel.app",
+    credentials: true,
+}));
 
 app.use(express.json());
 
