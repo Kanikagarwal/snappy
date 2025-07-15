@@ -15,12 +15,12 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://snappy-chatapp-five.vercel.app",
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
 app.options("*", cors({
-    origin: "https://snappy-chatapp-five.vercel.app",
+    origin: "http://localhost:5173",
     credentials: true,
 }));
 
@@ -47,7 +47,7 @@ const server = app.listen(process.env.PORT, function () {
 });
 const io = new Server(server,{
     cors:{
-        origin:"https://snappy-chatapp-five.vercel.app",
+        origin:"http://localhost:5173",
         credentials:true,
     }
 })
