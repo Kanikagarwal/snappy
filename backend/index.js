@@ -39,7 +39,9 @@ mongoose.connect(process.env.MONGOURL,{
     console.log(err.message);
     
 })
-
+  app.get("/test-cors", (req, res) => {
+    res.json({ msg: "CORS test" });
+  });
 const server = app.listen(process.env.PORT, function () {
     console.log(`Server started on port ${process.env.PORT}`);
 });
