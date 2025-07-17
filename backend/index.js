@@ -11,9 +11,30 @@ dotenv.config();
 
 const app = express();
 
+<<<<<<< HEAD
 app.use(cors({
   origin: process.env.FRONTEND_URL
 }));
+=======
+const allowedOrigins = [
+  "https://snappy-chatapp-five.vercel.app",
+  "http://localhost:5000"
+];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  // credentials: true // if using cookies or auth headers
+}));
+
+app.options("*", cors()); // Handle preflight
+
+>>>>>>> 922d932c437221c9eb84fb03406b859a2debacf2
 app.use(express.json());
 
 app.use("/api/auth",userRoutes)
@@ -29,16 +50,26 @@ mongoose.connect(process.env.MONGOURL,{
     console.log(err.message);
     
 })
+<<<<<<< HEAD
 app.get("/test-cors", (req, res) => {
     res.json({ msg: "CORS test" });
   });
 
+=======
+  app.get("/test-cors", (req, res) => {
+    res.json({ msg: "CORS test" });
+  });
+>>>>>>> 922d932c437221c9eb84fb03406b859a2debacf2
 const server = app.listen(process.env.PORT, function () {
     console.log(`Server started on port ${process.env.PORT}`);
 });
 const io = new Server(server,{
     cors:{
+<<<<<<< HEAD
         origin:process.env.FRONTEND_URL,
+=======
+        origin:"http://localhost:5173",
+>>>>>>> 922d932c437221c9eb84fb03406b859a2debacf2
         credentials:true,
     }
 })

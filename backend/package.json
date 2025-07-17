@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "type":"module",
+=======
+  "type": "module",
+>>>>>>> 922d932c437221c9eb84fb03406b859a2debacf2
   "dependencies": {
     "axios": "^1.10.0",
     "bcrypt": "^6.0.0",
@@ -9,5 +13,6 @@
     "mongoose": "^8.16.3",
     "multer": "^2.0.1",
     "socket.io": "^4.8.1"
+   
   }
 }
