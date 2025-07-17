@@ -11,7 +11,10 @@ dotenv.config();
 
 const app = express();
 
-
+const allowedOrigins = [
+  "https://snappy-chatapp-five.vercel.app",
+  "http://localhost:5000"
+];
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -21,7 +24,7 @@ app.use(cors({
       callback(new Error("Not allowed by CORS"));
     }
   },
-  credentials: true // if using cookies or auth headers
+  // credentials: true // if using cookies or auth headers
 }));
 
 app.options("*", cors()); // Handle preflight
