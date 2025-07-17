@@ -13,16 +13,18 @@ const app = express();
 
 
 
-app.use(
-  cors({
-    origin: "https://snappy-chatapp-five.vercel.app",
-    credentials: true,
-  })
-);
-app.options("*", cors({
-    origin: "https://snappy-chatapp-five.vercel.app",
-    credentials: true,
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true // if using cookies or auth headers
 }));
+
+app.options("*", cors()); // Handle preflight
 
 app.use(express.json());
 
