@@ -11,7 +11,9 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL
+}));
 app.use(express.json());
 
 app.use("/api/auth",userRoutes)
@@ -27,13 +29,16 @@ mongoose.connect(process.env.MONGOURL,{
     console.log(err.message);
     
 })
+app.get("/test-cors", (req, res) => {
+    res.json({ msg: "CORS test" });
+  });
 
 const server = app.listen(process.env.PORT, function () {
     console.log(`Server started on port ${process.env.PORT}`);
 });
 const io = new Server(server,{
     cors:{
-        origin:process.env.FRONTURL,
+        origin:process.env.FRONTEND_URL,
         credentials:true,
     }
 })

@@ -1,4 +1,4 @@
-export const host = import.meta.env.HOST;
+export const host = "http://localhost:5000";
 // const BASE_URL = import.meta.env.VITE_API_URL;
 
 export const registerRoute = `${host}/api/auth/register`;
@@ -10,3 +10,16 @@ export const sendMessageRoute = `${host}/api/messages/addmsg`
 export const getAllMessageRoute = `${host}/api/messages/getmsg`
 export const deleteMessageRoute = `${host}/api/messages/deletemsg`
 export const editMessageRoute = `${host}/api/messages/editmsg`
+
+
+
+
+
+
+// app.use(
+//   cors({
+//     origin: "https://snappy-chatapp-five.vercel.app",
+//     credentials: true, // if you're using cookies or auth headers
+//   })
+// );
+// app.options("*", cors());
