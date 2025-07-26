@@ -11,7 +11,7 @@ dotenv.config();
 
 const app = express();
 
-const allowedOrigins = ["https://snappy-chatapp-five.vercel.app",'http://localhost:5173'];
+const allowedOrigins = ["https://snappy-mga7.vercel.app",'http://localhost:5173'];
 
 app.use(cors({
   origin: allowedOrigins
