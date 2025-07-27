@@ -11,10 +11,28 @@ dotenv.config();
 
 const app = express();
 
-const allowedOrigins = ["https://snappy-chatapp-five.vercel.app",'http://localhost:5173'];
+// More flexible CORS configuration
+const allowedOrigins = [
+  "https://snappy-mga7.vercel.app",
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "http://localhost:4173", // Vite preview port
+  process.env.FRONTEND_URL // Allow environment variable for frontend URL
+].filter(Boolean); // Remove any undefined values
 
 app.use(cors({
-  origin: allowedOrigins
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      console.log('CORS blocked origin:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
 }));
 
 
@@ -40,7 +58,7 @@ const server = app.listen(process.env.PORT, function () {
 });
 const io = new Server(server,{
     cors:{
-        origin:"http://localhost:5173",
+        origin: allowedOrigins,
         credentials:true,
     }
 })
