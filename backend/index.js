@@ -11,18 +11,14 @@ dotenv.config();
 
 const app = express();
 
-// More flexible CORS configuration
 const allowedOrigins = [
   "https://snappy-mga7.vercel.app",
   "http://localhost:5173",
-  "http://localhost:3000",
-  "http://localhost:4173", // Vite preview port
-  process.env.FRONTEND_URL // Allow environment variable for frontend URL
-].filter(Boolean); // Remove any undefined values
+  
+].filter(Boolean);
 
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     
     if (allowedOrigins.indexOf(origin) !== -1) {
